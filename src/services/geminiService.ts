@@ -347,10 +347,9 @@ export interface DeliveryReport {
 
 // ─── Send Briefing (Batch) ───────────────────────────────────────────────────
 // Posts a single batch payload to n8n. n8n loops over recipients internally.
-// Vite proxy (/n8n-webhook → VITE_N8N_WEBHOOK_URL) avoids browser CORS.
 // Falls back to simulation if VITE_N8N_WEBHOOK_URL is not set.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const N8N_WEBHOOK_URL: string = (import.meta as any).env?.VITE_N8N_WEBHOOK_URL ?? '';
+const N8N_WEBHOOK_URL: string = (import.meta as any).env.VITE_N8N_WEBHOOK_URL;
 
 export async function sendBriefingBatch(payload: BriefingBatchPayload): Promise<DeliveryReport> {
   if (!N8N_WEBHOOK_URL) {
@@ -365,7 +364,7 @@ export async function sendBriefingBatch(payload: BriefingBatchPayload): Promise<
     return report;
   }
 
-  const response = await fetch('/n8n-webhook', {
+  const response = await fetch(N8N_WEBHOOK_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
@@ -622,9 +621,8 @@ export async function generateBriefingFromN8N(
   if (!N8N_BRIEFING_WEBHOOK) return null;
 
   try {
-    console.log('[n8n] Calling live intelligence webhook via proxy...');
-    // Use Vite proxy /n8n-brief → avoids CORS (browser can't call n8n.cloud directly)
-    const res = await fetch('/n8n-brief', {
+    console.log('[n8n] Calling live intelligence webhook...');
+    const res = await fetch(N8N_BRIEFING_WEBHOOK, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ scope, state, triggeredAt: new Date().toISOString() }),
