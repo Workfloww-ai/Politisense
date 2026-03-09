@@ -31,7 +31,7 @@ Open [http://localhost:3000](http://localhost:3000)
 
 ## Features
 
-- **Dashboard** — Scope selector (Nationwide / State-wise), sentiment summary, performance ratings
+- **Dashboard** — Scope selector (Nationwide / State-wise), sentiment summary, performance ratings.
 - **Top News** — Clickable Positive / Neutral / Negative news tabs
 - **Generated Brief** — AI-generated briefing, fully editable with Save/Cancel, copyable
 - **Send Center** — WhatsApp, Email, Telegram previews with recipient selection
